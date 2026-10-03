@@ -24,6 +24,7 @@ const videoSchema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
 
     title: {
@@ -53,12 +54,12 @@ const videoSchema = new Schema(
       default: true,
     },
   },
-
   {
     timestamps: true,
   }
 );
 
+// Enable aggregate pagination
 videoSchema.plugin(mongooseAggregatePaginate);
 
 export const Video = mongoose.model("Video", videoSchema);

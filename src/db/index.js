@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// Use Google DNS for MongoDB Atlas SRV lookup
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const connectDB = async () => {
@@ -11,10 +12,10 @@ const connectDB = async () => {
     const connectionInstance = await mongoose.connect(process.env.MONGODB_URI);
 
     console.log(
-      `\nMongoDB connected !! DB HOST: ${connectionInstance.connection.host}`
+      `\nMongoDB connected successfully!! DB HOST: ${connectionInstance.connection.host}`
     );
   } catch (error) {
-    console.log("MONGODB connection error:", error.message);
+    console.error("MongoDB connection error:", error.message);
     process.exit(1);
   }
 };
