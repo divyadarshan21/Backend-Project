@@ -3,6 +3,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import jwt from "jsonwebtoken"
 
 // Generate Access Token and Refresh Token
 const generateAccessandRefreshTokens = async (userId) => {
@@ -178,6 +179,19 @@ const logoutUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: true,
   };
+
+  const refreshAccessToken = asyncHandler(async(req, res) => {
+    const incomingRefreshToken = req.cookie.refreshToken || req.body.refreshToken
+
+    if(!incomingRefreshToken){
+      throw new ApiError(401, "Unauthorized request")
+    }
+
+    const decodedToken = jwt.verify(
+      incomingRefreshToken, 
+      process.env.ACCESS_TOKEN_SECRET
+    );
+  })
 
   return res
     .status(200)
